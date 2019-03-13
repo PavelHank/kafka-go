@@ -253,8 +253,10 @@ func (d *Dialer) dialContext(ctx context.Context, network string, address string
 			address = addrs[0]
 		}
 		if len(port) != 0 {
-			address, _ = splitHostPort(address)
-			address = net.JoinHostPort(address, port)
+			address, newPort := splitHostPort(address)
+			if len(newPort) == 0 {
+				address = net.JoinHostPort(address, port)
+			}
 		}
 	}
 
