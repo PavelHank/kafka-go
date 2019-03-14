@@ -252,11 +252,9 @@ func (d *Dialer) dialContext(ctx context.Context, network string, address string
 		if len(addrs) != 0 {
 			address = addrs[0]
 		}
-		if len(port) != 0 {
-			address, newPort := splitHostPort(address)
-			if len(newPort) == 0 {
-				address = net.JoinHostPort(address, port)
-			}
+		_, newPort := splitHostPort(address)
+		if len(newPort) == 0 && len(port) != 0 {
+			address = net.JoinHostPort(address, port)
 		}
 	}
 
